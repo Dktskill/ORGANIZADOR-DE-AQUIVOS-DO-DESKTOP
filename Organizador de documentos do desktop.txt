@@ -1,0 +1,24 @@
+import os
+from tkinter.filedialog import askdirectory
+
+caminho = askdirectory(title="selecione uma pasta")
+lista_de_arquivos = os.listdir(caminho)
+
+locais = {
+    'imagens': ['.png', '.jpg', '.jpeg', '.gif', ''],
+    'planilhas': ['.xls', '.xlsx', '.xlsm'],
+    'csv': ['.csv'],
+    'pdf': ['.pdf'],
+    'musicas': ['.mp3', '.ogg', '.wav', '.mp4', ''],
+    'documentos': ['.docx', '.doc'],
+    'variados': ['.zip', '.tar', '.tar.gz',".mkv", ".tgz", ".tar.bz2", '']
+}
+
+for arquivo in lista_de_arquivos:
+    nome, extensao = os.path.splitext(f"{caminho}/{arquivo}")
+    extensao = extensao.lower()  # Convert extension to lowercase
+    for pasta in locais:
+        if extensao in [ext.lower() for ext in locais[pasta]]:
+            if not os.path.exists(f"{caminho}/{pasta}"):
+                os.mkdir(f"{caminho}/{pasta}")
+            os.rename(f"{caminho}/{arquivo}", f"{caminho}/{pasta}/{arquivo}")
